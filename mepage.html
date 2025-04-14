@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Rajasthan Institute Of Technology</title>
+    <link rel="stylesheet" href="main_style.css">
+    <link rel="shortcut icon" href="image/favicon.ico" type="image/svg+xml">
+    <style>
+        /* Internal CSS for the announcement section */
+        .announcement {
+            background-color: #ffffff;
+            border: 1px solid #ffffff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .announcement h3 {
+            margin: 0 0 10px;
+            color: #2c10fd; /* Dark blue color for titles */
+        }
+        .announcement p {
+            margin: 0;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: #1a73e8;
+            color: white;
+            padding: 20px 0;
+            margin-top: 20px;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-info, .footer-links, .footer-social {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+        }
+
+        .footer-info h2, .footer-links h3, .footer-social h3 {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin: 5px 0;
+        }
+
+        .footer-links a, .footer-social a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover, .footer-social a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    
+    <section class="header">
+        <nav style="background:rgb(2, 40, 145);">
+            <a href="mepage.html"><img src="image/logo.png" id="logo-img"></a>
+            <div class="nav-links" id="navLinks">
+                <span class="icon" onclick="hidemenu()">&#10005;</span>
+                <ul>
+                    <li><a href="mepage.html">Home</a></li>
+                    <li><a href="Admission_page.html">Admission</a></li>
+                    <li><a href="#course_call">Course</a></li>
+                    <li><a href="Contact_page.html">Contact</a></li>
+                    <li><a href="./login.html">Student Login</a></li>
+                    <li><a href="./admin_login.html">Admin Login</a></li>
+                </ul>
+            </div> 
+            <span class="icon" onclick="showmenu()">&#9776;</span>
+        </nav>
+       
+        <div class="text-box">
+            <img src = "C:\Users\User\Pictures\campus.jpg">
+            <h1> Rajasthan Institute Of Technology</h1>
+            <p>The Rajasthan Institute Of Technology at Jaipur provide one of the earliest form of technical studies,<br>which has been vital in setting up the standard of brilliance.</p>
+            <a href="Admission_page.html" class="hero-btn">Admission Open</a>
+        </div>
+    </section>
+
+    <section class="course" id="course_call">
+        <h1>Course Offered</h1>
+        <div class="row">
+            <div class="course-col">
+                <h2>BCA</h2>
+                <p>The BCA course is a full time three years (six semesters) Bachelor’s Degree in Computer Application.The degree helps interested students in setting up a sound academic base for an advanced career in Computer Applications.</p>
+            </div>
+            <div class="course-col">
+                <h2>B. Tech</h2>
+                <p>B. Tech (Bachelor of Technology) a UG-level professional engineering degree course with a duration of 4 years. B Tech is a field related to computers and technology that includes a detailed study of programming and computer software applications.</p>
+            </div>
+            <div class="course-col">
+                <h2>M. Tech</h2>
+                <p>The aim of the programme is to train the students in deeper theoretical knowledge which will enable them to tackle practical complex problems of design and development in industrial fields, as well as pursue further academic achievements through research. For fulfilling this aim, the programme structure provides sufficient flexibility in coursework and thesis project.</p>
+            </div>
+            <div class="course-col">
+                <h2>MBA Tech</h2>
+                <p>The MBA Tech. program is a dual degree program in which the students get both the B. Tech. degree and the MBA degree in Technology Management in 5 years.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="facilities">
+        <h1> Our facilities</h1>
+        <p>Facilities provide for Students by RIT University</p>
+        <div class="row">
+            <div class="facilities-col">
+                <img src="image/canteen.jfif" alt="">
+                <h3>Canteen</h3>
+                <p>The objective of the Canteen and meal service is to protect by reducing the risk of foodborne illness, with proper sanitary conditions.</p>
+            </div>
+            <div class="facilities-col">
+                <img src="image/auditorium.jfif" alt="">
+                <h3>Auditorium</h3>
+                <p>The college is having a huge indoor auditorium with a professionally-deployed acoustic system and a seating capacity of about 200 people.</p>
+            </div>
+            <div class="facilities-col">
+                <img src="image/hostel.jfif" alt="">
+                <h3>Hostel</h3>
+                <p>Hostel consists of a separate mess, administrative office, warden quarter. In addition to well furnished rooms.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="footer">
+        <footer>
+            <div class="footer-container">
+                <div class="footer-info">
+                    <h2>Rajasthan Institute Of Technology</h2>
+                    <p>Address: Jaipur, Rajasthan, India</p>
+                    <p>Email: info@rit.edu.in</p>
+                    <p>Phone: +91 141 123 4567</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="Admission_page.html">Admissions</a></li>
+                        <li><a href="#course_call">Courses</a></li>
+                        <li><a href="Contact_page.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Follow Us</h3>
+                    <ul>
+                    <li><a href="https://www.facebook.com/rit" target="_blank">Facebook</a></li>
+                    <li><a href="https://twitter.com/rit" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/rit" target="_blank">Instagram</a></li>
+                </ul>
+            </div>
+        </footer>
+    </body>
+</html>
