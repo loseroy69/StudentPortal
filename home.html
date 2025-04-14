@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h2>Welcome</h2>
+    <p id="userInfo"></p>
+    <button onclick="logout()">Logout</button>
+
+    <script>
+        const id = sessionStorage.getItem("id");
+        const name = sessionStorage.getItem("name");
+
+        if (!id || !name) {
+            window.location.href = "login.html";
+        } else {
+            document.getElementById("userInfo").innerText = `ID: ${id}, Name: ${name}`;
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>

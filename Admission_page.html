@@ -1,0 +1,223 @@
+<html>
+	<head>
+
+  <title>Admission form- GGU</title>
+    <link rel="stylesheet" href="admission_style.css">
+	
+		
+
+</head>
+<body>
+
+  <section class="header">
+    <nav>
+        <a href="mepage.html"><img src="image/logo.png" id="logo-img"></a>
+
+        <div class="nav-links" id="navLinks">
+          <span class="icon" onclick="hidemenu()">&#10005;</span>  
+          <ul>
+            <li><a href="mepage.html">Home</a></li>
+            <li><a href="Admission_page.html">Admission</a></li>
+            <li><a href="mepage.html#course_call">Course</a></li>
+            <li><a href="Contact_page.html">Contact</a></li>
+            </ul>
+        </div> 
+        <span class="icon" onclick="showmenu()">&#9776;</span>
+    </nav>
+
+	<div class="wrapper">
+		<div class="r_form_wrap">
+			
+			<div class="title">
+				<p>Admission form</p>
+			</div>
+			
+			<!-- Admission Form -->
+<div class="r_form">
+    <form id="admissionForm">
+        <!-- Name Field -->
+        <div class="input_wrap">
+            <label for="yourname">Your Name</label>
+            <div class="input_item">
+                <i class="fa fa-user" id="icon"></i>
+                <input type="text" name="name" class="input" id="yourname" placeholder="Enter your name" required>
+            </div>
+        </div>
+
+        <!-- Email Field -->
+        <div class="input_wrap">
+            <label for="emailaddress">Email Address</label>
+            <div class="input_item">
+                <i class="fa fa-envelope" id="icon"></i>
+                <input type="email" name="email" class="input" id="emailaddress" placeholder="Enter your email" required>
+            </div>
+        </div>
+
+        <!-- Phone Field -->
+        <div class="input_wrap">
+            <label for="phone">Phone</label>
+            <div class="input_item">
+                <i class="fa fa-phone-square" id="icon"></i>
+                <input type="tel" name="phone" class="input" id="phone" placeholder="Enter your mobile number" pattern="[0-9]{10}" required>
+            </div>
+            <small>Format: 10-digit number</small>
+        </div>
+
+        <!-- Gender Selection -->
+        <div class="input_wrap">
+            <label>Gender</label>
+            <div class="input_radio">
+                <div class="input_radio_item">
+                    <input type="radio" id="male" name="gender" class="radio" value="Male" required>
+                    <label for="male">Male</label>
+                </div>
+                <div class="input_radio_item">
+                    <input type="radio" id="female" name="gender" class="radio" value="Female">
+                    <label for="female">Female</label>
+                </div>
+                <div class="input_radio_item">
+                    <input type="radio" id="others" name="gender" class="radio" value="Others">
+                    <label for="others">Others</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="input_wrap">
+            <label for="dob">Date Of Birth</label>
+            <div class="input_item">
+                <i class="fa fa-calendar" id="icon"></i>
+                <input type="date" name="dob" class="input" id="dob" required>
+            </div>
+        </div>
+
+        <!-- Course Selection -->
+        <div class="input_wrap">
+            <label for="course">Course</label>
+            <div class="input_item">
+                <i class="fa fa-caret-square-o-down" aria-hidden="true" id="icon"></i>
+                <select id="course" name="course" class="input" required>
+                    <option value="" disabled selected>Select a course</option>
+                    <option value="BCA">BCA</option>
+                    <option value="B.Tech">B. Tech</option>
+                    <option value="M.Tech">M. Tech</option>
+                    <option value="MBA Tech">MBA Tech</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="input_wrap">
+            <label for="password">Password</label>
+            <div class="input_item">
+                <i class="fa fa-key" id="icon"></i>
+                <input type="password" name="password" class="input" id="password" placeholder="Enter your password" minlength="6" required>
+            </div>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="input_wrap">
+            <label for="confirmpassword">Confirm Password</label>
+            <div class="input_item">
+                <i class="fa fa-check-circle" id="icon"></i>
+                <input type="password" name="confirmPassword" class="input" id="confirmpassword" placeholder="Confirm your password" required>
+            </div>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+	document.getElementById("admissionForm").addEventListener("submit", async function(event) {
+		event.preventDefault(); // Prevent form from refreshing
+	
+		// Get form values
+		const name = document.getElementById("yourname").value.trim();
+		const email = document.getElementById("emailaddress").value.trim();
+		const phone = document.getElementById("phone").value.trim();
+		const gender = document.querySelector('input[name="gender"]:checked')?.value;
+		const dob = document.getElementById("dob").value;
+		const course = document.getElementById("course").value;
+		const password = document.getElementById("password").value;
+		const confirmPassword = document.getElementById("confirmpassword").value;
+	
+		// Password validation
+		if (password !== confirmPassword) {
+			alert("Passwords do not match!");
+			return;
+		}
+	
+		// Basic email validation
+		const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		if (!emailPattern.test(email)) {
+			alert("Invalid email address!");
+			return;
+		}
+	
+		// Phone validation (10-digit number)
+		const phonePattern = /^[0-9]{10}$/;
+		if (!phonePattern.test(phone)) {
+			alert("Phone number must be exactly 10 digits!");
+			return;
+		}
+	
+		// Ensure gender is selected
+		if (!gender) {
+			alert("Please select your gender.");
+			return;
+		}
+	
+		// Ensure a course is selected
+		if (!course) {
+			alert("Please select a course.");
+			return;
+		}
+	
+		// Construct user data
+		const userData = { name, email, phone, gender, dob, course, password };
+	
+		try {
+			// Send data to server
+			const response = await fetch("http://localhost:3000/admission", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(userData)
+			});
+	
+			const result = await response.json();
+	
+			if (response.ok) {
+				alert(result.message);
+				document.getElementById("admissionForm").reset(); // Clear form after success
+			} else {
+				alert("Error: " + (result.error || "Unknown error"));
+			}
+		} catch (error) {
+			console.error("Error:", error);
+			alert("Failed to submit form. Please try again later.");
+		}
+	});
+	</script>
+	
+	</body>
+	<!-- Javascript for this Web page -->
+	<script src=" https://smtpjs.com/v3/smtp.js"></script>
+	<script>
+		function sendmail(){
+		Email.send({}).then(
+	message => alert("Thanks for filling out our form!")
+);
+		}
+	</script>
+	<script>
+	var navLinks= document.getElementById("navLinks");
+
+function showmenu(){
+    navLinks.style.right="0";
+}   
+function hidemenu(){
+    navLinks.style.right="-200px";
+}
+</script>
+</html>
