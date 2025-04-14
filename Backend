@@ -1,1 +1,162 @@
+const express = require("express");
+const mysql = require("mysql2");
+const cors = require("cors");
+
+const app = express();
+const PORT = 3000;
+
+app.use(cors());
+app.use(express.json());
+
+// MySQL Database Connection (Adjust credentials)
+const db = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "wp"
+});
+
+// Connect to MySQL
+db.connect(err => {
+    if (err) {
+        console.error("Database connection failed:", err);
+    } else {
+        console.log("Connected to MySQL database");
+    }
+});
+
+// Queries to Create Tables
+const createTableSQL = `
+    CREATE TABLE IF NOT EXISTS admission (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        phone VARCHAR(20) NOT NULL,
+        gender ENUM('Male', 'Female', 'Others') NOT NULL,
+        dob DATE NOT NULL,
+        course VARCHAR(100) NOT NULL,
+        password VARCHAR(255) NOT NULL
+    )
+`;
+
+const createTableContact = `
+    CREATE TABLE IF NOT EXISTS contacts (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        message TEXT NOT NULL
+    )
+`;
+
+const createTableUser = `
+    CREATE TABLE IF NOT EXISTS users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        password VARCHAR(255) NOT NULL
+    )
+`;
+
+const createTableAdmin = `
+    CREATE TABLE IF NOT EXISTS admins (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        password VARCHAR(255) NOT NULL
+    )
+`;
+
+// Execute Table Creation Queries
+db.query(createTableSQL, err => {
+    if (err) console.error("Error creating admission table:", err);
+    else console.log("Admission table is ready.");
+});
+
+db.query(createTableContact, err => {
+    if (err) console.error("Error creating contacts table:", err);
+    else console.log("Contacts table is ready.");
+});
+
+db.query(createTableUser, err => {
+    if (err) console.error("Error creating users table:", err);
+    else console.log("Users table is ready.");
+});
+
+db.query(createTableAdmin, err => {
+    if (err) console.error("Error creating admins table:", err);
+    else console.log("Admins table is ready.");
+});
+app.get("/users-auth", (req, res) => {
+    const { email, password } = req.query; // Extract email & password from request
+
+    if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required!" });
+    }
+
+    const sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+    db.query(sql, [email, password], (err, results) => {
+        if (err) {
+            console.error("Error fetching user:", err);
+            return res.status(500).json({ message: "Database error", error: err });
+        }
+
+        if (results.length > 0) {
+            res.json({ message: "Login successful!", user: results[0] });
+        } else {
+            res.status(401).json({ message: "Invalid email or password" });
+        }
+    });
+});
+
+
+// ✅ POST Route to Save Admission Data with Hashed Password
+app.post("/admission", async (req, res) => {
+    const { name, email, phone, gender, dob, course, password } = req.body;
+
+    if (!name || !email || !phone || !gender || !dob || !course || !password) {
+        return res.status(400).json({ message: "All fields are required." });
+    }
+
+    try {
+
+        const sql = `INSERT INTO admission (name, email, phone, gender, dob, course, password) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        const values = [name, email, phone, gender, dob, course, password];
+
+        db.query(sql, values, (err, result) => {
+            if (err) {
+                console.error("Error inserting data:", err);
+                return res.status(500).json({ message: "Database error", error: err });
+            }
+            res.status(201).json({ message: "User admitted successfully!", userId: result.insertId });
+        });
+    } catch (error) {
+        console.error("Error processing request:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+app.post("/contacts", (req, res) => {
+    const { name, email,  message } = req.body;
+
+    const sql = `INSERT INTO contacts (name, email,  message) VALUES (?, ?, ?)`;
+    const values = [name, email, message];
+
+    db.query(sql, values, (err, result) => {
+        if (err) {
+            console.error("Error inserting data:", err);
+            return res.status(500).json({ message: "Database error", error: err });
+        }
+        res.status(201).json({ message: "Message sent successfully!", contactId: result.insertId });
+    });
+});
+
+// ✅ Simple Route to Check Server Status
+app.get("/", (req, res) => {
+    res.json({ message: "Server is running" });
+});
+
+// ✅ Start the Server
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
 
